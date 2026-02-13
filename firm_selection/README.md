@@ -1,0 +1,2 @@
+- In order to filter down to REIT bonds, we first used WRDS Compustat Fundamentals from January 2010 to February 2026 to identify Real Estate Investment Trusts firms with 6798 SIC code. 
+- The unique cusips spanned 435 firms, and were stored in `reit_cusips.txt` as a space-separated list for reproducibility and batch querying in WRDS.
