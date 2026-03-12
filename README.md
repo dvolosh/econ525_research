@@ -29,12 +29,20 @@ All data is aggregated at a **monthly (M)** frequency.
 * **Macro Controls:** VIX (Market Volatility) and 10-Year Treasury Yield.
 
 ### Econometric Model
-We utilize **Panel Vector Autoregression (Panel VAR)** and **Granger Causality** to prove the "leading" nature of the indicator.
+We utilize a **Panel Fixed Effects regression with a Difference-in-Differences (DiD) interaction term** as the primary model. The DiD interaction directly exploits our treatment/control design to isolate the housing-specific signal.
 
-**The Regression Equation:**
-$$ILLIQ_{i,t} = \alpha + \beta_1 HMI_{t-1} + \beta_2 ILLIQ_{i,t-1} + \gamma Controls_t + \epsilon_{i,t}$$
+**Primary Model — Panel Fixed Effects DiD:**
+$$ILLIQ_{i,t} = \alpha_i + \lambda_t + \beta_1(HMI_{t-1} \times Treat_i) + \beta_2 HMI_{t-1} + \beta_3 ILLIQ_{i,t-1} + \gamma_1 VIX_t + \gamma_2 Treasury_t + \epsilon_{i,t}$$
+
+| Term | Purpose |
+| :--- | :--- |
+| $\alpha_i$ | Firm fixed effects — absorbs time-invariant firm characteristics (size, leverage) |
+| $\lambda_t$ | Time fixed effects — absorbs common macro shocks |
+| $\beta_1$ ($HMI_{t-1} \times Treat_i$) | **DiD coefficient of interest** — differential effect of HMI on residential REITs |
+| $\beta_2$ | Baseline HMI effect shared across all REITs |
+| $\beta_3$ | AR(1) term capturing ILLIQ persistence |
 
 **The "Success" Criteria:**
-We reject the Null Hypothesis ($H_0$: Past values of HMI do not help predict current ILLIQ) if:
-1.  **Treatment Group:** Granger Causality is statistically significant.
-2.  **Control Group:** Granger Causality fails to reach significance (proving the HMI signal is sector-specific).
+We reject the Null Hypothesis ($H_0$: HMI does not differentially predict ILLIQ for residential REITs) if:
+1. **Primary test:** $\beta_1$ is negative and statistically significant — higher homebuilder sentiment predicts lower illiquidity for the treatment group only.
+2. **Robustness (Granger Causality by subsample):** Granger causality is significant for the treatment group but fails to reach significance for the control group, confirming the signal is housing-sector specific.
