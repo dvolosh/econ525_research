@@ -10,8 +10,8 @@ This research investigates whether homebuilder sentiment serves as an early warn
 * **For Investors:** Provides a window to exit positions before transaction costs spike.
 * **For REIT Managers:** Identifies optimal windows for SEOs (Seasoned Equity Offerings) or capital raising before market fluidity drops.
 
-## Experimental Design
-To isolate the housing-specific signal from general market noise, we employ a **Treatment vs. Control** framework using a Difference-in-Difference (DiD) approach.
+## Identification Strategy
+To isolate the housing-specific information channel, we employ a treatment-control framework. By comparing residential REITs against non-residential peers, we can distinguish between housing-specific signals and general market volatility.
 
 | Group | Description | Constituents |
 | :--- | :--- | :--- |
@@ -20,28 +20,21 @@ To isolate the housing-specific signal from general market noise, we employ a **
 
 ---
 
-## Methodology & Econometrics
-All data is aggregated at a **monthly (M)** frequency.
+## Econometric Specification
+The analysis utilizes a **Pooled OLS regression** with log-transformed illiquidity to normalize the distribution of price impact metrics.
 
-### Variables
-* **Independent Variable ($X$):** Housing Market Index (HMI).
-* **Dependent Variable ($Y$):** Amihud Illiquidity ($ILLIQ_{avg}$), calculated from daily returns and volume.
-* **Macro Controls:** VIX (Market Volatility) and 10-Year Treasury Yield.
+$$\log(ILLIQ_{i,t}) = \beta_0 + \beta_1(HMI_{t-1} \times Treat_i) + \beta_2 HMI_{t-1} + \beta_3 \log(ILLIQ_{i,t-1}) + \Gamma X_{i,t} + \delta Macro_t + \epsilon_{i,t}$$
 
-### Econometric Model
-We utilize a **Panel Fixed Effects regression with a Difference-in-Differences (DiD) interaction term** as the primary model. The DiD interaction directly exploits our treatment/control design to isolate the housing-specific signal.
+### Variable Definitions
+* **$\beta_1$ (Coefficient of Interest):** Measures the differential impact of lagged housing sentiment on the residential treatment group.
+* **$X_{i,t}$ (Firm Controls):** A vector of annual fundamental controls (**Size**, **Leverage**, and **Asset Growth**) from Compustat. These act as "step" controls that remain constant throughout the fiscal year to account for structural changes like M&A.
+* **$Macro_t$:** Monthly macroeconomic controls, including the **VIX** and **10-Year Treasury Yield**.
+* **$\log(ILLIQ_{i,t-1})$:** An $AR(1)$ term to control for the inherent persistence in stock market liquidity levels.
 
-**Primary Model — Panel Fixed Effects DiD:**
-$$ILLIQ_{i,t} = \alpha_i + \beta_1(HMI_{t-1} \times Treat_i) + \beta_2 HMI_{t-1} + \beta_3 ILLIQ_{i,t-1} + \gamma_1 VIX_t + \gamma_2 Treasury_t + \epsilon_{i,t}$$
+---
 
-| Term | Purpose |
-| :--- | :--- |
-| $\alpha_i$ | Firm fixed effects — absorbs time-invariant firm characteristics (size, leverage) |
-| $\beta_1$ ($HMI_{t-1} \times Treat_i$) | **DiD coefficient of interest** — differential effect of HMI on residential REITs |
-| $\beta_2$ | Baseline HMI effect shared across all REITs |
-| $\beta_3$ | AR(1) term capturing ILLIQ persistence |
+## Success Criteria
+The study rejects the Null Hypothesis ($H_0$: Housing sentiment does not differentially predict liquidity for residential REITs) if:
 
-**The "Success" Criteria:**
-We reject the Null Hypothesis ($H_0$: HMI does not differentially predict ILLIQ for residential REITs) if:
-1. **Primary test:** $\beta_1$ is negative and statistically significant — higher homebuilder sentiment predicts lower illiquidity for the treatment group only.
-2. **Robustness (Granger Causality by subsample):** Granger causality is significant for the treatment group but fails to reach significance for the control group, confirming the signal is housing-sector specific.
+1.  **Primary Test:** The coefficient $\beta_1$ is **negative and statistically significant**. This indicates that improved sentiment predicts a subsequent reduction in illiquidity for residential REITs.
+2.  **Robustness:** **Granger Causality** tests show a significant predictive relationship for the treatment group that is absent in the non-residential control group.
