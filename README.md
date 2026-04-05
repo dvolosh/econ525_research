@@ -15,8 +15,8 @@ To isolate the housing-specific information channel, we employ a treatment-contr
 
 | Group | Description | Constituents |
 | :--- | :--- | :--- |
-| **Treatment** | Residential & Single-Family Rental REITs. Assets are directly tied to HMI drivers (mortgage rates, buyer traffic). | `ESS`, `AVB`, `INVH`, `UDR`, `MAA`, `CPT`, `AMH` |
-| **Control** | Non-residential REITs. Acts as a placebo to ensure HMI isn't just reflecting general market fear. | `WELL`, `AMT`, `EQIX`, `PLD` |
+| **Treatment** | Residential & Single-Family Rental REITs. Assets are directly tied to HMI drivers (mortgage rates, buyer traffic). | `ESS`, `UDR`, `MAA`, `CPT` |
+| **Control** | Non-residential REITs. Acts as a placebo to ensure HMI isn't just reflecting general market fear. |  `AMT`, `EQIX`, `PLD` |
 
 ---
 
