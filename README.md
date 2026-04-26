@@ -34,8 +34,7 @@ $$\log(ILLIQ_{i,t}) = \beta_0 + \beta_1(HMI_{t-1} \times Residential_i) + \beta_
 
 ---
 
-## Success Criteria
-The study explores whether housing sentiment sequentially impacts REIT liquidity, and if it does so differently across property types:
+## Key Results
 
-1.  **Primary Test:** The coefficient $\beta_1$ is **negative and statistically significant**. This would indicate that improved sentiment predicts a reduction in illiquidity distinctly for residential REITs compared to others.
-2.  **Robustness & Dynamics:** **Split Sample Tests** (Granger-type predictions) verify if HMI predicts illiquidity securely inside each group. Furthermore, an **Impulse Response Function (IRF)** assesses whether the *persistence* (half-life) of a liquidity shock inherently differs between the Residential and Non-Residential subgroups.
+- **HMI predicts illiquidity for both groups:** Lagged HMI is positive and statistically significant for Residential and Non-Residential REITs, indicating sector-wide increases in Amihud illiquidity following positive HMI shocks.
+- **Different persistence:** IRF analysis shows the same-direction initial shock but different decay rates — residential REITs recover faster (shorter half-life) while non-residential REITs exhibit more persistent illiquidity (longer half-life).
